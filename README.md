@@ -1,2 +1,3 @@
-npm instsll
+npm install
+
 npm run dev
