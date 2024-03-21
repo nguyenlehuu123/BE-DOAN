@@ -28,7 +28,7 @@ public class AuditingEntityAction<T extends BaseEntity> {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    private AccountRedis getUserInfo() {
+    public AccountRedis getUserInfo() {
         HttpServletRequest servletRequest =
                 ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 

@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
+import java.util.BitSet;
 import java.util.List;
 
 @Repository
-public interface OptionHeaderRepository extends JpaRepository<OptionHeaderEntity, Integer> {
+public interface OptionHeaderRepository extends JpaRepository<OptionHeaderEntity, BigInteger> {
     List<OptionHeaderEntity> findAllByOrderByOrderSortAsc();
 }

@@ -1,11 +1,14 @@
 package com.nguyen.master.NguyenMaster.ddd.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -32,6 +35,13 @@ public class AuthorEntity {
 
     @Column(name = "phone")
     private String phone;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "author_story",
+    joinColumns = @JoinColumn(name = "author_id"),
+    inverseJoinColumns = @JoinColumn(name = "story_id"))
+    @JsonBackReference
+    private List<StoryEntity> storyEntities;
 
     @Override
     public String toString() {
