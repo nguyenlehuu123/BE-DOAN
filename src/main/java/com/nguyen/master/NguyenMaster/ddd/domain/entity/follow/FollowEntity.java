@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,13 +16,13 @@ public class FollowEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "follow_id")
-    private Integer followId;
+    private BigInteger followId;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private BigInteger userId;
 
     @Column(name = "story_id")
-    private Integer storyId;
+    private BigInteger storyId;
 
     @Override
     public String toString() {

@@ -125,6 +125,9 @@ public class AuthenticationService extends BaseService {
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .email(user.getEmail())
+                .role(user.getRole())
+                .avatar(user.getAvatar())
                 .expireTime(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
                 .build();
     }

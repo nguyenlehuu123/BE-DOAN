@@ -2,6 +2,7 @@ package com.nguyen.master.NguyenMaster.ddd.presentation.follow;
 
 import com.nguyen.master.NguyenMaster.ddd.usecase.follow.DeleteFollowService;
 import com.nguyen.master.NguyenMaster.ddd.usecase.follow.FollowService;
+import com.nguyen.master.NguyenMaster.ddd.usecase.follow.GetFollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class FollowController {
     @Autowired
     private DeleteFollowService deleteFollowService;
 
+    @Autowired
+    private GetFollowService getFollowService;
+
     @PostMapping("/{storyId}")
     public ResponseEntity<?> followStory(@PathVariable BigInteger storyId) {
         return ResponseEntity.status(HttpStatus.OK).body(followService.followStory(storyId));
@@ -26,6 +30,11 @@ public class FollowController {
     @DeleteMapping("/{storyId}")
     public ResponseEntity<?> unfollowStory(@PathVariable BigInteger storyId) {
         return ResponseEntity.status(HttpStatus.OK).body(deleteFollowService.unfollow(storyId));
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> getFollow() {
+        return ResponseEntity.status(HttpStatus.OK).body(getFollowService.getFollow());
     }
 
 }

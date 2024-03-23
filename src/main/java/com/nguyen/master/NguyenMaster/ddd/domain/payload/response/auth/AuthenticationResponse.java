@@ -18,5 +18,11 @@ public class AuthenticationResponse {
 
     private String refreshToken;
 
+    private String email;
+
+    private Enum role;
+
+    private String avatar;
+
     private Date expireTime;
 }

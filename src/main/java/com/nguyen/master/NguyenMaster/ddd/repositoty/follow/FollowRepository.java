@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigInteger;
+import java.util.Collection;
 
 public interface FollowRepository extends JpaRepository<FollowEntity, BigInteger> {
     @Modifying
@@ -16,4 +17,8 @@ public interface FollowRepository extends JpaRepository<FollowEntity, BigInteger
     @Modifying
     @Query(value = "delete from follow where user_id = :userId and story_id = :storyId", nativeQuery = true)
     void deleteFollowEntitiesByUserIdAndStoryId(BigInteger userId, BigInteger storyId);
+
+    Collection<FollowEntity> findFollowEntitiesByUserId(BigInteger userId);
+
+    FollowEntity findFollowEntitiesByUserIdAndStoryId(BigInteger userId, BigInteger storyId);
 }

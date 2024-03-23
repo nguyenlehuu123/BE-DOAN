@@ -7,21 +7,17 @@ import com.nguyen.master.NguyenMaster.core.common.ErrorMessage;
 import com.nguyen.master.NguyenMaster.core.constant.Constants;
 import com.nguyen.master.NguyenMaster.core.constant.SystemMessageCode;
 import com.nguyen.master.NguyenMaster.core.exceptions.rest.Error400Exception;
-import com.nguyen.master.NguyenMaster.core.util.JwtUtils;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.AccountRedis;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.auth.Users;
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.follow.FollowEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.auth.UserRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.follow.FollowRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.StoryRepository;
-import io.micrometer.common.util.StringUtils;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -29,8 +25,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FollowService extends BaseService {
-
-    private final JwtUtils jwtUtils;
 
     @Autowired
     private StoryRepository storyRepository;
@@ -48,6 +42,7 @@ public class FollowService extends BaseService {
         AccountRedis accountRedis = auditingEntityAction.getUserInfo();
         checkStoryExitsInDb(storyId);
         checkUserIdExitsInDb(accountRedis.getUserId());
+        checkUserFollowedStory(accountRedis.getUserId(), storyId);
         followRepository.insertFollowEntity(accountRedis.getUserId(), storyId);
 
         NormalDefaultResponse normalDefaultResponse = new NormalDefaultResponse();
@@ -68,6 +63,14 @@ public class FollowService extends BaseService {
         if (ObjectUtils.isEmpty(users)) {
             List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.USER_NOT_EXITS));
             throw new Error400Exception(Constants.E401, errorMessages);
+        }
+    }
+
+    private void checkUserFollowedStory(BigInteger userId, BigInteger storyId) {
+        FollowEntity followEntity = followRepository.findFollowEntitiesByUserIdAndStoryId(userId, storyId);
+        if (!ObjectUtils.isEmpty(followEntity)) {
+            List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.YOU_HAVE_FOLLOWED_THIS_STORY));
+            throw new Error400Exception(Constants.E405, errorMessages);
         }
     }
 }
