@@ -9,10 +9,12 @@ import com.nguyen.master.NguyenMaster.core.exceptions.rest.Error400Exception;
 import com.nguyen.master.NguyenMaster.core.util.JwtUtils;
 import com.nguyen.master.NguyenMaster.core.util.convert.JsonConverter;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.AccountRedis;
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.auth.Otp;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.auth.Tokens;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.auth.Users;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.RegisterUserRequest;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.response.auth.AuthenticationResponse;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.auth.OtpRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.auth.TokenRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.auth.UserRepository;
 import io.micrometer.common.util.StringUtils;
@@ -25,12 +27,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +43,7 @@ import java.util.List;
 public class AuthenticationService extends BaseService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final OtpRepository otpRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
@@ -56,11 +61,9 @@ public class AuthenticationService extends BaseService {
     @Value("${bezkoder.app.accessTokenExpirationMs}")
     private long accessTokenExpirationMs;
 
-
-    @Value("${bezkoder.app.refreshTokenExpirationMs}")
-    private long refreshTokenExpirationMs;
-
     public AuthenticationResponse registerUser(RegisterUserRequest registerUserRequest) {
+
+        validateOtp(registerUserRequest.getEmail(), registerUserRequest.getOtp());
 
         var userCheckRegister = userRepository.findByEmail(registerUserRequest.getEmail());
         if (!ObjectUtils.isEmpty(userCheckRegister)) {
@@ -72,7 +75,7 @@ public class AuthenticationService extends BaseService {
                 .email(registerUserRequest.getEmail())
                 .password(passwordEncoder.encode(registerUserRequest.getPassword()))
                 .role(Role.USER)
-                .avatar("avatar")
+                .avatar("https://ss-images.saostar.vn/wp700/pc/1613810558698/Facebook-Avatar_3.png")
                 .build();
         Users saveUser = userRepository.save(user);
 
@@ -95,10 +98,14 @@ public class AuthenticationService extends BaseService {
         accountRedis.setAccessToken(accessToken);
         redisTemplate.opsForValue().set(redisKey, accountRedis);
 
+        otpRepository.deleteByEmail(registerUserRequest.getEmail());
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .expireTime(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
+                .email(saveUser.getEmail())
+                .avatar(saveUser.getAvatar())
+                .role(saveUser.getRole())
                 .build();
     }
 
@@ -162,5 +169,26 @@ public class AuthenticationService extends BaseService {
             return authenticationResponse;
         }
         return null;
+    }
+
+    public void validateOtp(String email, String otpRequest) {
+        Otp otp = otpRepository.findByEmail(email);
+
+        if (ObjectUtils.isEmpty(otp)) {
+            List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.YOU_HAVE_NOT_SENT_OTP));
+            throw new Error400Exception(Constants.E401, errorMessages);
+        }
+
+        if (!otp.getOtp().equals(otpRequest)) {
+            List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.OTP_NOT_CORRECT));
+            throw new Error400Exception(Constants.E404, errorMessages);
+        }
+
+        Timestamp current = new Timestamp(System.currentTimeMillis());
+        if (otp.getExpiresAt().before(current)) {
+            otpRepository.delete(otp);
+            List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.OTP_HAS_EXPIRED));
+            throw new Error400Exception(Constants.E402, errorMessages);
+        }
     }
 }
