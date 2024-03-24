@@ -19,4 +19,5 @@ public class SystemMessageCode {
     public static final String YOU_HAVE_NOT_SENT_OTP = "you.have.not.sent.otp";
     public static final String OTP_HAS_EXPIRED = "otp.has.expired";
     public static final String OTP_NOT_CORRECT = "otp.not.correct";
+    public static final String LOGOUT_SUCCESS = "logout.success";
 }

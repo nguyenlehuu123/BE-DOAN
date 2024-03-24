@@ -16,7 +16,7 @@ public class OtpController {
     @Autowired
     private OtpService otpService;
 
-    @PostMapping("sendOtp")
+    @PostMapping("send-otp")
     public ResponseEntity<?> sendOtp(@RequestBody OtpRequest otpRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(otpService.sendOtp(otpRequest));
     }

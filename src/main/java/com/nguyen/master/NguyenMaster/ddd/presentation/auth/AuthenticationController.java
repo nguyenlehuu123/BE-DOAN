@@ -31,4 +31,9 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> refreshToken() {
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.refreshToken());
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.logout());
+    }
 }

@@ -1,5 +1,7 @@
 package com.nguyen.master.NguyenMaster.ddd.usecase.auth;
 
+import com.nguyen.master.NguyenMaster.core.NormalDefaultResponse;
+import com.nguyen.master.NguyenMaster.core.common.AuditingEntityAction;
 import com.nguyen.master.NguyenMaster.core.common.BaseService;
 import com.nguyen.master.NguyenMaster.core.common.ErrorMessage;
 import com.nguyen.master.NguyenMaster.core.constant.Constants;
@@ -47,6 +49,7 @@ public class AuthenticationService extends BaseService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+    private final AuditingEntityAction auditingEntityAction;
 
     @Resource
     private RedisTemplate redisTemplate;
@@ -169,6 +172,16 @@ public class AuthenticationService extends BaseService {
             return authenticationResponse;
         }
         return null;
+    }
+
+    public NormalDefaultResponse logout() {
+        AccountRedis accountRedis = auditingEntityAction.getUserInfo();
+        String redisKey = String.format(tokenLoginPrefix, accountRedis.getUserId(), Constants.START);
+        redisTemplate.delete(redisKey);
+
+        NormalDefaultResponse normalDefaultResponse = new NormalDefaultResponse();
+        normalDefaultResponse.setMessage(getMessage(SystemMessageCode.LOGOUT_SUCCESS));
+        return normalDefaultResponse;
     }
 
     public void validateOtp(String email, String otpRequest) {
