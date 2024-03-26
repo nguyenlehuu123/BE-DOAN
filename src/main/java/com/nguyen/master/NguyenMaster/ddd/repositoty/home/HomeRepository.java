@@ -2,6 +2,7 @@ package com.nguyen.master.NguyenMaster.ddd.repositoty.home;
 
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.PagingRequest;
+import com.nguyen.master.NguyenMaster.ddd.domain.payload.response.home.SearchAllStory;
 import com.nguyen.master.NguyenMaster.ddd.dto.home.StoryEntityPagingDTO;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +25,6 @@ public interface HomeRepository extends JpaRepository<StoryEntity, BigInteger> {
             "order by s.update_timestamp, s.create_timestamp " +
             "limit :#{#request.pageSize} offset (:#{#request.pageNum} - 1) * (:#{#request.pageSize}) ", nativeQuery = true)
     Collection<StoryEntity> findAllStoryUpdateNew(@Param("request") PagingRequest request);
+
+    Collection<StoryEntity> findAllBy();
 }

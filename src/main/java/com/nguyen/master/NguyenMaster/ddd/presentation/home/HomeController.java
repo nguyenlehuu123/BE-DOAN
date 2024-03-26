@@ -34,4 +34,9 @@ public class HomeController {
     public ResponseEntity<?> getStoryUpdate(@Parameter(name = "pagingRequest", required = true, in = ParameterIn.QUERY) PagingRequest pagingRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(getStoryHotService.getStoryUpdateNew(pagingRequest));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchAllStory() {
+        return ResponseEntity.status(HttpStatus.OK).body(getStoryHotService.searchAllStory());
+    }
 }
