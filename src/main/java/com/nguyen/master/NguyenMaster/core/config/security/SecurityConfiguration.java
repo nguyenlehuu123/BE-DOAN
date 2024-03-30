@@ -12,8 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +30,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(List.of("*"));
+        corsConfig.setAllowCredentials(true);
+        corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         corsConfig.addAllowedMethod("*");
         corsConfig.addAllowedHeader("*");
         corsConfig.setExposedHeaders(Collections.singletonList("Content-Disposition"));
@@ -52,6 +53,7 @@ public class SecurityConfiguration {
                         "/v3/api-docs",
                         "/v3/api-docs/**",
                         "swagger-resources",
+                        "/gs-guide-websocket/**",
                         "swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

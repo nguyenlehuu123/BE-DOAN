@@ -1,5 +1,6 @@
 package com.nguyen.master.NguyenMaster.ddd.presentation.mangaDetail;
 
+import com.nguyen.master.NguyenMaster.ddd.usecase.detailManga.GetCommentService;
 import com.nguyen.master.NguyenMaster.ddd.usecase.detailManga.GetDetailStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,16 @@ import java.math.BigInteger;
 public class MangaDetailController {
     @Autowired
     private GetDetailStoryService getDetailStoryService;
+
+    @Autowired
+    private GetCommentService getCommentService;
     @GetMapping("/{id}")
     public ResponseEntity<?> getMangaDetail(@PathVariable BigInteger id) {
         return ResponseEntity.status(HttpStatus.OK).body(getDetailStoryService.getDetailStory(id));
+    }
+
+    @GetMapping("/comments/{storyId}")
+    public ResponseEntity<?> getCommentManga(@PathVariable BigInteger storyId) {
+        return ResponseEntity.status(HttpStatus.OK).body(getCommentService.getComment(storyId));
     }
 }

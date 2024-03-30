@@ -1,6 +1,8 @@
 package com.nguyen.master.NguyenMaster.ddd.domain.entity.auth;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nguyen.master.NguyenMaster.core.constant.enums.Role;
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.CommentEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +39,11 @@ public class Users implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @Column(nullable = false)
+    @JsonManagedReference
+    private List<CommentEntity> commentEntities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,10 +1,10 @@
 package com.nguyen.master.NguyenMaster.ddd.domain.entity.home;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.nguyen.master.NguyenMaster.core.common.BaseService;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.AuthorEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.BaseEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.ChapterEntity;
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.CommentEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,8 +46,8 @@ public class StoryEntity extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "author_story",
-    joinColumns = @JoinColumn(name = "story_id"),
-    inverseJoinColumns = @JoinColumn(name = "author_id"))
+            joinColumns = @JoinColumn(name = "story_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Column(nullable = true)
     @JsonManagedReference
     private List<AuthorEntity> authorEntities;
@@ -56,6 +56,11 @@ public class StoryEntity extends BaseEntity {
     @Column(nullable = true)
     @JsonManagedReference
     private List<ChapterEntity> chapterEntities;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "storyEntity")
+    @Column(nullable = false)
+    @JsonManagedReference
+    private List<CommentEntity> commentEntities;
 
     @Override
     public String toString() {
