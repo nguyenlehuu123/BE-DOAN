@@ -68,6 +68,7 @@ public class CommentService extends BaseService {
                     .timeComment(new Timestamp(System.currentTimeMillis()))
                     .likeComment(0)
                     .dislikeComment(0)
+                    .subCommentId(commentRequest.getCommentId())
                     .build();
         }
         return commentEntity;
@@ -82,6 +83,7 @@ public class CommentService extends BaseService {
                 .dislikeComment(commentEntity.getDislikeComment())
                 .emailUserComment(commentEntity.getUsers().getEmail())
                 .avatar(commentEntity.getUsers().getAvatar())
+                .subCommentId(commentEntity.getSubCommentId())
                 .build();
     }
 }

@@ -20,4 +20,5 @@ public class CommentResponse {
     private Integer dislikeComment;
     private String emailUserComment;
     private String avatar;
+    private BigInteger subCommentId;
 }

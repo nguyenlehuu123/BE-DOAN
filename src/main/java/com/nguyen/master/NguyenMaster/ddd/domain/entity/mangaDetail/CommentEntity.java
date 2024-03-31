@@ -37,7 +37,7 @@ public class CommentEntity {
     private Integer dislikeComment;
 
     @Column(name = "sub_comment_id")
-    private Integer subCommentId;
+    private BigInteger subCommentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
