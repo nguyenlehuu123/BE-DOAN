@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,11 +22,18 @@ public class ChapterEntity extends BaseEntity {
     @Column(name = "chapter_id")
     private Integer chapterId;
 
+    @Id
+    @Column(name = "chapter_number")
+    private Integer chapterNumber;
+
     @Column(name = "view_number")
     private Integer viewNumber;
 
     @Column(name = "status_key")
     private Integer statusKey;
+
+    @Column(name = "release_date")
+    private Timestamp releaseDate;
 
     @ManyToOne()
     @JoinColumn(name = "story_id_fk", referencedColumnName = "story_id")

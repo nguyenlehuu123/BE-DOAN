@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -34,6 +35,9 @@ public class StoryEntity extends BaseEntity {
 
     @Column(name = "image")
     private String image;
+
+    @Column(name = "release_date")
+    private Timestamp releaseDate;
 
     @Column(name = "status")
     private Integer status;
