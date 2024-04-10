@@ -21,4 +21,5 @@ public class SystemMessageCode {
     public static final String OTP_NOT_CORRECT = "otp.not.correct";
     public static final String LOGOUT_SUCCESS = "logout.success";
     public static final String AUTHOR_NOT_FOUND = "author.not.found";
+    public static final String CHAPTER_NOT_EXITS = "chapter.not.exits";
 }
