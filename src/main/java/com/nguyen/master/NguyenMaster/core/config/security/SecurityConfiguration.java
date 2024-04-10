@@ -47,6 +47,7 @@ public class SecurityConfiguration {
                         "/api/v1/manga-detail/**",
                         "/api/v1/follow/**",
                         "api/v1/otp/**",
+                        "/api/v1/upload-story/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",
                         "/v2/api-docs",

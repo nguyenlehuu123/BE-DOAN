@@ -3,9 +3,7 @@ package com.nguyen.master.NguyenMaster.ddd.domain.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigInteger;
 import java.util.List;

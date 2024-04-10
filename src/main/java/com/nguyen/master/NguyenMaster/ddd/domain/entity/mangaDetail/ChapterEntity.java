@@ -5,12 +5,14 @@ import com.nguyen.master.NguyenMaster.ddd.domain.entity.BaseEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -22,7 +24,6 @@ public class ChapterEntity extends BaseEntity {
     @Column(name = "chapter_id")
     private Integer chapterId;
 
-    @Id
     @Column(name = "chapter_number")
     private Integer chapterNumber;
 
@@ -34,6 +35,9 @@ public class ChapterEntity extends BaseEntity {
 
     @Column(name = "release_date")
     private Timestamp releaseDate;
+
+    @Column(name = "url_file")
+    private String urlFile;
 
     @ManyToOne()
     @JoinColumn(name = "story_id_fk", referencedColumnName = "story_id")

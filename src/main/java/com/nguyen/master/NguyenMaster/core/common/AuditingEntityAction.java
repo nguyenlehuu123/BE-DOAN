@@ -15,6 +15,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 @Component
@@ -51,11 +52,12 @@ public class AuditingEntityAction<T extends BaseEntity> {
 
         if (!ObjectUtils.isEmpty(accountRedis) && !ObjectUtils.isEmpty(entity)) {
             if (isInsert) {
-                entity.setCreator(accountRedis.getCreator());
+                entity.setCreator(String.valueOf(accountRedis.getUserId()));
                 entity.setCreateTimestamp(current);
                 entity.setDeleteFlg(DeleteFlgEnum.ACTIVE.getCode());
             }
-            entity.setUpdater(accountRedis.getUpdater());
+            entity.setUpdater(String.valueOf(accountRedis.getUserId()));
+            entity.setVersionNo(BigInteger.valueOf(1));
             entity.setUpdateTimestamp(current);
         }
     }

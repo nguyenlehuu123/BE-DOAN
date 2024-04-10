@@ -5,6 +5,7 @@ import com.nguyen.master.NguyenMaster.core.constant.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,5 +63,18 @@ public class DateUtil {
             return 1;
         }
         return 0;
+    }
+
+    public static Timestamp convertStringToTimestamp(String date) {
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date parseDate = dateFormat.parse(date);
+            return new Timestamp(parseDate.getTime());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

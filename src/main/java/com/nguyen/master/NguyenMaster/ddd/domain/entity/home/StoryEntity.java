@@ -48,6 +48,10 @@ public class StoryEntity extends BaseEntity {
     @Column(name = "like_number")
     private BigInteger likeNumber;
 
+
+    @Column(name = "rating_point")
+    private Integer ratingPoint;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "author_story",
             joinColumns = @JoinColumn(name = "story_id"),
