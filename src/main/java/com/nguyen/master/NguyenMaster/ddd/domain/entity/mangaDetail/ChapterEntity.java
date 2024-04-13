@@ -39,6 +39,9 @@ public class ChapterEntity extends BaseEntity {
     @Column(name = "url_file")
     private String urlFile;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     @ManyToOne()
     @JoinColumn(name = "story_id_fk", referencedColumnName = "story_id")
     @JsonBackReference

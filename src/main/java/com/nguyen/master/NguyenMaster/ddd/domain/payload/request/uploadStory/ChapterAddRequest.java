@@ -14,4 +14,5 @@ public class ChapterAddRequest {
     private Integer statusKey;
     private String releaseDate;
     private String urlFile;
+    private String fileName;
 }

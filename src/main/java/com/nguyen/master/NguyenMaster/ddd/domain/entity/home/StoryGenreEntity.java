@@ -1,5 +1,7 @@
 package com.nguyen.master.NguyenMaster.ddd.domain.entity.home;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "story_genre")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class StoryGenreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +29,7 @@ public class StoryGenreEntity {
 
     @OneToMany(mappedBy = "storyGenreEntity", fetch = FetchType.LAZY)
     @Column(nullable = true)
-    @JsonManagedReference
+    @JsonBackReference
     private List<StoryEntity> storyEntities;
 
     @Override

@@ -98,6 +98,7 @@ public class UpdateStoryService extends BaseService {
                     .statusKey(chapterAddRequest.getStatusKey())
                     .releaseDate(DateUtil.convertStringToTimestamp(chapterAddRequest.getReleaseDate()))
                     .urlFile(chapterAddRequest.getUrlFile())
+                    .fileName(chapterAddRequest.getFileName())
                     .viewNumber(0)
                     .storyEntity(storyEntity)
                     .build();

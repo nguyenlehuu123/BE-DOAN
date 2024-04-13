@@ -72,6 +72,7 @@ public class UploadStoryService extends BaseService {
                     .statusKey(chapterAddRequest.getStatusKey())
                     .releaseDate(DateUtil.convertStringToTimestamp(chapterAddRequest.getReleaseDate()))
                     .urlFile(chapterAddRequest.getUrlFile())
+                    .fileName(chapterAddRequest.getFileName())
                     .viewNumber(0)
                     .storyEntity(storyEntitySave)
                     .build();
@@ -91,9 +92,6 @@ public class UploadStoryService extends BaseService {
         }
         storyEntitySave.setAuthorEntities(authorEntities);
         searchStoryRepository.save(storyEntitySave);
-
-
-
 
         NormalDefaultResponse normalDefaultResponse = new NormalDefaultResponse();
         normalDefaultResponse.setMessage(SystemMessageCode.SUCCESS_PROCESS);

@@ -1,6 +1,7 @@
 package com.nguyen.master.NguyenMaster.ddd.domain.entity.home;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.AuthorEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.BaseEntity;
@@ -73,7 +74,7 @@ public class StoryEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "story_genre_fk", referencedColumnName = "story_genre_id")
-    @JsonBackReference
+    @JsonManagedReference
     private StoryGenreEntity storyGenreEntity;
 
     @Override

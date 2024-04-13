@@ -30,7 +30,6 @@ public class GetDetailStoryService extends BaseService {
             List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.STORY_EMPTY_NOT_RECORD));
             throw new Error400Exception(Constants.E404, errorMessages);
         }
-
         return storyEntity;
     }
 }
