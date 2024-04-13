@@ -10,12 +10,14 @@ import com.nguyen.master.NguyenMaster.core.exceptions.rest.Error400Exception;
 import com.nguyen.master.NguyenMaster.core.util.DateUtil;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.AuthorEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryGenreEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.ChapterEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.uploadStory.ChapterAddRequest;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.uploadStory.InsertStoryRequest;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.StoryRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.uploadStory.AuthorRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.uploadStory.ChapterRepository;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.uploadStory.StoryGenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -39,6 +41,9 @@ public class UpdateStoryService extends BaseService {
     @Autowired
     private AuditingEntityAction auditingEntityAction;
 
+    @Autowired
+    private StoryGenreRepository storyGenreRepository;
+
     public NormalDefaultResponse updateStory(InsertStoryRequest request, BigInteger storyId) {
 
         StoryEntity storyEntity = storyRepository.findStoryEntitiesByStoryId(storyId);
@@ -52,6 +57,15 @@ public class UpdateStoryService extends BaseService {
         storyEntity.setReleaseDate(DateUtil.convertStringToTimestamp(request.getReleaseDate()));
         storyEntity.setImage(request.getImage());
 
+        // check story genre
+        StoryGenreEntity storyGenreEntity = storyGenreRepository.findStoryGenreEntitiesByStoryGenreId(request.getStoryGenreId());
+        if (ObjectUtils.isEmpty(storyGenreEntity)) {
+            List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.STORY_GENRE_NOT_FOUND));
+            throw new Error400Exception(Constants.E404, errorMessages);
+        }
+        storyEntity.setStoryGenreEntity(storyGenreEntity);
+
+        // check author
         List<AuthorEntity> authorEntities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(request.getAuthorIds())) {
             for (BigInteger authorId : request.getAuthorIds()) {

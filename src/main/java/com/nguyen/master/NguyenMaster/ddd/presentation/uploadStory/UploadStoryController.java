@@ -3,10 +3,7 @@ package com.nguyen.master.NguyenMaster.ddd.presentation.uploadStory;
 import com.nguyen.master.NguyenMaster.core.constant.validator.anotaion.Required;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.uploadStory.InsertStoryRequest;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.uploadStory.SearchStoryRequest;
-import com.nguyen.master.NguyenMaster.ddd.usecase.uploadStory.DeleteChapterService;
-import com.nguyen.master.NguyenMaster.ddd.usecase.uploadStory.UpdateStoryService;
-import com.nguyen.master.NguyenMaster.ddd.usecase.uploadStory.UploadStoryService;
-import com.nguyen.master.NguyenMaster.ddd.usecase.uploadStory.SearchStoryService;
+import com.nguyen.master.NguyenMaster.ddd.usecase.uploadStory.*;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,12 @@ public class UploadStoryController {
 
     @Autowired
     private UpdateStoryService updateStoryService;
+
+    @Autowired
+    private GetAllAuthorService getAllAuthorService;
+
+    @Autowired
+    private GetAllGenreService getAllGenreService;
     @GetMapping("/search")
     public ResponseEntity<?> getCommentManga(@Parameter(name = "searchStoryRequest", required = true, in = ParameterIn.QUERY) SearchStoryRequest searchStoryRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(searchStoryService.search(searchStoryRequest));
@@ -51,5 +54,13 @@ public class UploadStoryController {
         return ResponseEntity.status(HttpStatus.OK).body(deleteChapterService.deleteChapter(chapterId));
     }
 
+    @GetMapping("/get-all-author")
+    public ResponseEntity<?> getAllAuthor() {
+        return ResponseEntity.status(HttpStatus.OK).body(getAllAuthorService.getAllAuthor());
+    }
 
+    @GetMapping("/get-all-story-genre")
+    public ResponseEntity<?> getAllStoryGenre() {
+        return ResponseEntity.status(HttpStatus.OK).body(getAllGenreService.getAllStoryGenre());
+    }
 }

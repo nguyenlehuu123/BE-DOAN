@@ -1,5 +1,6 @@
 package com.nguyen.master.NguyenMaster.ddd.domain.entity.home;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.AuthorEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.BaseEntity;
@@ -69,6 +70,11 @@ public class StoryEntity extends BaseEntity {
     @Column(nullable = false)
     @JsonManagedReference
     private List<CommentEntity> commentEntities;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "story_genre_fk", referencedColumnName = "story_genre_id")
+    @JsonBackReference
+    private StoryGenreEntity storyGenreEntity;
 
     @Override
     public String toString() {

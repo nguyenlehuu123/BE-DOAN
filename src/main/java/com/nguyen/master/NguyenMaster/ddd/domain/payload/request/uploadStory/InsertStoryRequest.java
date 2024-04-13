@@ -17,6 +17,7 @@ public class InsertStoryRequest {
     private String releaseDate;
     private String description;
     private String image;
+    private Integer storyGenreId;
     private List<BigInteger> authorIds;
     private List<ChapterAddRequest> chaptersAdd;
 }
