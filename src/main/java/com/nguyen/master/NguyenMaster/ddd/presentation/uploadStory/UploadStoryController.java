@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/upload-story")
@@ -33,6 +35,9 @@ public class UploadStoryController {
 
     @Autowired
     private GetAllGenreService getAllGenreService;
+
+    @Autowired
+    private FileUploadService fileUploadService;
     @GetMapping("/search")
     public ResponseEntity<?> getCommentManga(@Parameter(name = "searchStoryRequest", required = true, in = ParameterIn.QUERY) SearchStoryRequest searchStoryRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(searchStoryService.search(searchStoryRequest));
@@ -62,5 +67,10 @@ public class UploadStoryController {
     @GetMapping("/get-all-story-genre")
     public ResponseEntity<?> getAllStoryGenre() {
         return ResponseEntity.status(HttpStatus.OK).body(getAllGenreService.getAllStoryGenre());
+    }
+
+    @PostMapping("/file-upload")
+    public ResponseEntity<?> uploadChapter(List<MultipartFile> lstFile, String fileLocation, Integer autoCreateFilePathFlg, Integer overrideExistedFileFlg) {
+        return ResponseEntity.status(HttpStatus.OK).body(fileUploadService.fileUpload(lstFile, fileLocation, autoCreateFilePathFlg, overrideExistedFileFlg));
     }
 }

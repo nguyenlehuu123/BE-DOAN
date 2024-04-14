@@ -23,4 +23,5 @@ public class SystemMessageCode {
     public static final String AUTHOR_NOT_FOUND = "author.not.found";
     public static final String CHAPTER_NOT_EXITS = "chapter.not.exits";
     public static final String STORY_GENRE_NOT_FOUND = "story.genre.not.found";
+    public static final String ERROR_RESPONSE = "error.response";
 }
