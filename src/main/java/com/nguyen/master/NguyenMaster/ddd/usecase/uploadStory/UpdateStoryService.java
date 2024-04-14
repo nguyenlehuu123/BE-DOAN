@@ -61,7 +61,7 @@ public class UpdateStoryService extends BaseService {
         StoryGenreEntity storyGenreEntity = storyGenreRepository.findStoryGenreEntitiesByStoryGenreId(request.getStoryGenreId());
         if (ObjectUtils.isEmpty(storyGenreEntity)) {
             List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.STORY_GENRE_NOT_FOUND));
-            throw new Error400Exception(Constants.E404, errorMessages);
+            throw new Error400Exception(Constants.E405, errorMessages);
         }
         storyEntity.setStoryGenreEntity(storyGenreEntity);
 
@@ -72,7 +72,7 @@ public class UpdateStoryService extends BaseService {
                 AuthorEntity authorEntity = authorRepository.findAuthorEntityByAuthorId(authorId);
                 if (ObjectUtils.isEmpty(authorEntity)) {
                     List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.AUTHOR_NOT_FOUND));
-                    throw new Error400Exception(Constants.E405, errorMessages);
+                    throw new Error400Exception(Constants.E406, errorMessages);
                 }
                 authorEntities.add(authorEntity);
             }

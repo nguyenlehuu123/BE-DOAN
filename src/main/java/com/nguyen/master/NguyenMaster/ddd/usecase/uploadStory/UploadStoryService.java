@@ -86,7 +86,7 @@ public class UploadStoryService extends BaseService {
             AuthorEntity authorEntity = authorRepository.findAuthorEntityByAuthorId(authorId);
             if (ObjectUtils.isEmpty(authorEntity)) {
                 List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.AUTHOR_NOT_FOUND));
-                throw new Error400Exception(Constants.E404, errorMessages);
+                throw new Error400Exception(Constants.E405, errorMessages);
             }
             authorEntities.add(authorEntity);
         }
