@@ -15,6 +15,8 @@ import com.nguyen.master.NguyenMaster.ddd.dto.home.StoryEntityPagingDTO;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.home.HomeRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.home.OptionHeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -80,4 +82,18 @@ public class GetStoryHotService extends BaseService {
         return searchAllStories;
     }
 
+    public StoryEntityPagingDTO getStoryGenre(Integer storyGenreId, PagingRequest pagingRequest) {
+        PageRequest pageRequest = PageRequest.of(pagingRequest.getPageNum() - 1, pagingRequest.getPageSize());
+
+        Page<StoryEntity> storyEntitiesPage = homeRepository.findAllByStoryGenreEntity_StoryGenreId(storyGenreId, pageRequest);
+        if (storyEntitiesPage.isEmpty()) {
+            List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.NOT_STORY_HOT));
+            throw new Error400Exception(Constants.E404, errorMessages);
+        }
+
+        StoryEntityPagingDTO storyEntityPagingDTO = new StoryEntityPagingDTO();
+        storyEntityPagingDTO.setTotal((int) storyEntitiesPage.getTotalElements());
+        storyEntityPagingDTO.setStoryEntities(storyEntitiesPage.getContent());
+        return storyEntityPagingDTO;
+    }
 }

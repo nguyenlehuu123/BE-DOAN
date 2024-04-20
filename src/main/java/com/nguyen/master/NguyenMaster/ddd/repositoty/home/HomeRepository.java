@@ -5,6 +5,8 @@ import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.PagingRequest;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.response.home.SearchAllStory;
 import com.nguyen.master.NguyenMaster.ddd.dto.home.StoryEntityPagingDTO;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -27,4 +29,6 @@ public interface HomeRepository extends JpaRepository<StoryEntity, BigInteger> {
     Collection<StoryEntity> findAllStoryUpdateNew(@Param("request") PagingRequest request);
 
     Collection<StoryEntity> findAllBy();
+
+    Page<StoryEntity> findAllByStoryGenreEntity_StoryGenreId(Integer storyGenreId, Pageable pageable);
 }

@@ -27,6 +27,9 @@ public class StoryGenreEntity {
     @Column(name = "story_genre_name")
     private String storyGenreName;
 
+    @Column(name = "description")
+    private String description;
+
     @OneToMany(mappedBy = "storyGenreEntity", fetch = FetchType.LAZY)
     @Column(nullable = true)
     @JsonBackReference
