@@ -45,10 +45,10 @@ public class StoryEntity extends BaseEntity {
     private Integer status;
 
     @Column(name = "follow_number")
-    private BigInteger followNumber;
+    private Integer followNumber;
 
     @Column(name = "like_number")
-    private BigInteger likeNumber;
+    private Integer likeNumber;
 
 
     @Column(name = "rating_point")

@@ -24,4 +24,5 @@ public class SystemMessageCode {
     public static final String CHAPTER_NOT_EXITS = "chapter.not.exits";
     public static final String STORY_GENRE_NOT_FOUND = "story.genre.not.found";
     public static final String ERROR_RESPONSE = "error.response";
+    public static final String NO_CONDITIONS_WERE_POSTER = "no.conditions.were.posted";
 }

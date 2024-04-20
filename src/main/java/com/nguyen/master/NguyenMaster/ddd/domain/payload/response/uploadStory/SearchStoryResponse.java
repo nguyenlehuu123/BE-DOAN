@@ -18,7 +18,7 @@ public class SearchStoryResponse {
     private String storyName;
     private List<String> authorName;
     private Timestamp dateSubmitted;
-    private BigInteger likeNumber;
-    private BigInteger followNumber;
+    private Integer likeNumber;
+    private Integer followNumber;
     private Integer rating;
 }

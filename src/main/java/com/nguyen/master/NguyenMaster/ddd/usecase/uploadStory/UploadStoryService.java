@@ -51,8 +51,8 @@ public class UploadStoryService extends BaseService {
                 .image(request.getImage())
                 .status(1) // TODO: UPDATED
                 .releaseDate(DateUtil.convertStringToTimestamp(request.getReleaseDate()))
-                .followNumber(BigInteger.valueOf(0))
-                .likeNumber(BigInteger.valueOf(0))
+                .followNumber(0)
+                .likeNumber(0)
                 .ratingPoint(0)
                 .build();
         auditingEntityAction.auditingInsertOrUpdate(storyEntity, true);
