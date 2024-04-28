@@ -36,18 +36,23 @@ public class MangaDetailController {
         return ResponseEntity.status(HttpStatus.OK).body(getCommentService.getComment(storyId));
     }
 
-    @PutMapping("/manga-detail/likes/{storyId}")
+    @PutMapping("/likes/{storyId}")
     public ResponseEntity<?> likeManga(@PathVariable BigInteger storyId) {
         return ResponseEntity.status(HttpStatus.OK).body(likesMangaService.likeManga(storyId));
     }
 
-    @DeleteMapping("/manga-detail/likes/{storyId}")
+    @DeleteMapping("/dislikes/{storyId}")
     public ResponseEntity<?> unlikeManga(@PathVariable BigInteger storyId) {
         return ResponseEntity.status(HttpStatus.OK).body(likesMangaService.unlikeManga(storyId));
     }
 
-    @PutMapping("/manga-detail/rating/{storyId}")
+    @PutMapping("/rating/{storyId}")
     public ResponseEntity<?> ratingManga(@PathVariable BigInteger storyId, @RequestBody Integer rating) {
         return ResponseEntity.status(HttpStatus.OK).body(ratingMangaService.ratingManga(storyId, rating));
+    }
+
+    @GetMapping("/is-liked/{storyId}")
+    public ResponseEntity<?> isLiked(@PathVariable BigInteger storyId) {
+        return ResponseEntity.status(HttpStatus.OK).body(likesMangaService.isLiked(storyId));
     }
 }

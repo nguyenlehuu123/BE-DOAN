@@ -63,4 +63,16 @@ public class LikesMangaService extends BaseService {
                 .message(SystemMessageCode.SUCCESS_PROCESS)
                 .build();
     }
+
+    public int isLiked(BigInteger storyId) {
+        AccountRedis accountRedis = auditingEntityAction.getUserInfo();
+        BigInteger userId = accountRedis.getUserId();
+
+        LikesEntity likesEntity = likesRepository.findLikesEntityByStoryIdAndUserId(storyId, userId);
+        if (likesEntity == null) {
+            return 0;
+        }
+
+        return 1;
+    }
 }
