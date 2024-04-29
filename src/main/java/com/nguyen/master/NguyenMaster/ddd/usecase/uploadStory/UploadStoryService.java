@@ -53,7 +53,7 @@ public class UploadStoryService extends BaseService {
                 .releaseDate(DateUtil.convertStringToTimestamp(request.getReleaseDate()))
                 .followNumber(0)
                 .likeNumber(0)
-                .ratingPoint(0)
+                .ratingPoint((float) 0)
                 .build();
         auditingEntityAction.auditingInsertOrUpdate(storyEntity, true);
 

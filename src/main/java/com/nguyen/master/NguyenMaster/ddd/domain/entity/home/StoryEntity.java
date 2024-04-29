@@ -52,7 +52,7 @@ public class StoryEntity extends BaseEntity {
 
 
     @Column(name = "rating_point")
-    private Integer ratingPoint;
+    private Float ratingPoint;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "author_story",

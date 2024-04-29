@@ -20,5 +20,5 @@ public class SearchStoryResponse {
     private Timestamp dateSubmitted;
     private Integer likeNumber;
     private Integer followNumber;
-    private Integer rating;
+    private Float rating;
 }

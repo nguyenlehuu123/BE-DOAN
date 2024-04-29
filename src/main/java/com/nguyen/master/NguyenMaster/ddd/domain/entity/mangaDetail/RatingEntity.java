@@ -15,22 +15,19 @@ import java.math.BigInteger;
 @Entity
 @Table(name = "rating")
 public class RatingEntity {
-    @Id
-    @Column(name = "story_id")
-    private BigInteger storyId;
-
-    @Column(name = "user_id")
-    private BigInteger userId;
+    @EmbeddedId
+    private RatingId id;
 
     @Column(name = "rating")
-    private Integer rating;
+    private Float rating;
 
     @Override
     public String toString() {
         return "RatingEntity{" +
-                "storyId=" + storyId +
-                ", userId=" + userId +
+                "id=" + id +
                 ", rating=" + rating +
                 '}';
     }
 }
+
+

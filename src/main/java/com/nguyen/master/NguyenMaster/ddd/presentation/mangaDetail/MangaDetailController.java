@@ -1,5 +1,6 @@
 package com.nguyen.master.NguyenMaster.ddd.presentation.mangaDetail;
 
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.RatingPoint;
 import com.nguyen.master.NguyenMaster.ddd.usecase.detailManga.GetCommentService;
 import com.nguyen.master.NguyenMaster.ddd.usecase.detailManga.GetDetailStoryService;
 import com.nguyen.master.NguyenMaster.ddd.usecase.detailManga.LikesMangaService;
@@ -47,12 +48,22 @@ public class MangaDetailController {
     }
 
     @PutMapping("/rating/{storyId}")
-    public ResponseEntity<?> ratingManga(@PathVariable BigInteger storyId, @RequestBody Integer rating) {
-        return ResponseEntity.status(HttpStatus.OK).body(ratingMangaService.ratingManga(storyId, rating));
+    public ResponseEntity<?> ratingManga(@PathVariable BigInteger storyId, @RequestBody RatingPoint rating) {
+        return ResponseEntity.status(HttpStatus.OK).body(ratingMangaService.ratingManga(storyId, rating.getRating()));
     }
 
     @GetMapping("/is-liked/{storyId}")
     public ResponseEntity<?> isLiked(@PathVariable BigInteger storyId) {
         return ResponseEntity.status(HttpStatus.OK).body(likesMangaService.isLiked(storyId));
+    }
+
+    @GetMapping("/rating-overview/{storyId}")
+    public ResponseEntity<?> ratingOverview(@PathVariable BigInteger storyId) {
+        return ResponseEntity.status(HttpStatus.OK).body(ratingMangaService.ratingOverview(storyId));
+    }
+
+    @GetMapping("/is-rated/{storyId}")
+    public ResponseEntity<?> isRating(@PathVariable BigInteger storyId) {
+        return ResponseEntity.status(HttpStatus.OK).body(ratingMangaService.isRating(storyId));
     }
 }
