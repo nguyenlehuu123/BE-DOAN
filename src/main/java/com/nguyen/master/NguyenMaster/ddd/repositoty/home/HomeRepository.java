@@ -2,8 +2,6 @@ package com.nguyen.master.NguyenMaster.ddd.repositoty.home;
 
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.PagingRequest;
-import com.nguyen.master.NguyenMaster.ddd.domain.payload.response.home.SearchAllStory;
-import com.nguyen.master.NguyenMaster.ddd.dto.home.StoryEntityPagingDTO;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
