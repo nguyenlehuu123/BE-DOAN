@@ -1,6 +1,5 @@
 package com.nguyen.master.NguyenMaster.ddd.usecase.home;
 
-import com.nguyen.master.NguyenMaster.core.NormalDefaultResponse;
 import com.nguyen.master.NguyenMaster.core.common.BaseService;
 import com.nguyen.master.NguyenMaster.core.common.ErrorMessage;
 import com.nguyen.master.NguyenMaster.core.constant.Constants;
@@ -11,6 +10,8 @@ import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.OptionHeaderEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.PagingRequest;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.response.home.SearchAllStory;
+import com.nguyen.master.NguyenMaster.ddd.domain.payload.response.home.StoryEntityPagingResponse;
+import com.nguyen.master.NguyenMaster.ddd.dto.home.StoryEntityDTO;
 import com.nguyen.master.NguyenMaster.ddd.dto.home.StoryEntityPagingDTO;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.home.HomeRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.home.OptionHeaderRepository;
@@ -39,8 +40,8 @@ public class GetStoryHotService extends BaseService {
         return optionHeaderEntities;
     }
 
-    public Collection<StoryEntity> getStoryHot() {
-        Collection<StoryEntity> storyEntities = homeRepository.findAllStoryHot(16);
+    public Collection<StoryEntityDTO> getStoryHot() {
+        Collection<StoryEntityDTO> storyEntities = homeRepository.findAllStoryHot(16);
         if (CollectionUtils.isEmpty(storyEntities)) {
             List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.NOT_STORY_HOT));
             throw new Error400Exception(Constants.E404, errorMessages);
@@ -48,7 +49,8 @@ public class GetStoryHotService extends BaseService {
         return storyEntities;
     }
 
-    public StoryEntityPagingDTO getStoryUpdateNew(PagingRequest pagingRequest) {
+    public StoryEntityPagingResponse getStoryUpdateNew(PagingRequest pagingRequest) {
+
         int total = (int) homeRepository.count();
 
         if (total == 0) {
@@ -56,16 +58,18 @@ public class GetStoryHotService extends BaseService {
             throw new Error400Exception(Constants.E400, errorMessages);
         }
 
-        Collection<StoryEntity> storyEntities = homeRepository.findAllStoryUpdateNew(pagingRequest);
-        if (CollectionUtils.isEmpty(storyEntities)) {
+        PageRequest pageRequest = PageRequest.of(pagingRequest.getPageNum() - 1, pagingRequest.getPageSize());
+        Page<StoryEntityDTO> storyEntityDTOS = homeRepository.findAllStoryEntityDTO(pageRequest);
+
+        if (CollectionUtils.isEmpty(storyEntityDTOS.getContent())) {
             List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.NOT_STORY_HOT));
             throw new Error400Exception(Constants.E404, errorMessages);
         }
 
-        StoryEntityPagingDTO storyEntityPagingDTOS = new StoryEntityPagingDTO();
-        storyEntityPagingDTOS.setTotal(total);
-        storyEntityPagingDTOS.setStoryEntities(storyEntities);
-        return storyEntityPagingDTOS;
+        StoryEntityPagingResponse storyEntityPagingResponse = new StoryEntityPagingResponse();
+        storyEntityPagingResponse.setTotal((int) storyEntityDTOS.getTotalElements());
+        storyEntityPagingResponse.setStoryEntityDTOS(storyEntityDTOS.getContent());
+        return storyEntityPagingResponse;
     }
 
     public List<SearchAllStory> searchAllStory() {
