@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 @Data
 @AllArgsConstructor
@@ -14,6 +15,6 @@ import java.io.Serializable;
 @Builder
 @Embeddable
 public class ReadHistoryId implements Serializable {
-    private Long storyId;
-    private Long userId;
+    private BigInteger storyId;
+    private BigInteger userId;
 }

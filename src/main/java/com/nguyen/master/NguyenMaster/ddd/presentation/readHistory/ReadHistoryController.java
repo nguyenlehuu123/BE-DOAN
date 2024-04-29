@@ -7,9 +7,9 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
 
 @RestController
 @RequestMapping("/api/v1/history")
@@ -21,5 +21,10 @@ public class ReadHistoryController {
     @GetMapping("")
     public ResponseEntity<?> getReadHistory(@Parameter(name = "pagingRequest", required = true, in = ParameterIn.QUERY) PagingRequest pagingRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(readHistoryService.getReadHistory(pagingRequest));
+    }
+
+    @PostMapping("/{storyId}")
+    public ResponseEntity<?> addReadHistory(@PathVariable BigInteger storyId) {
+        return ResponseEntity.status(HttpStatus.OK).body(readHistoryService.addReadHistory(storyId));
     }
 }
