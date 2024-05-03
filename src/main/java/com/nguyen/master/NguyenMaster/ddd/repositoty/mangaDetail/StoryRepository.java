@@ -14,4 +14,9 @@ public interface StoryRepository extends JpaRepository<StoryEntity, BigInteger> 
 
     @Query(value = "select * from story where story_id in (?1) and delete_flg = 0", nativeQuery = true)
     List<StoryEntity> findStoryEntitiesByStoryIds(List<BigInteger> storyIds);
+
+    @Query("SELECT max(s.storyId) FROM StoryEntity s")
+    Integer getLastAutoIncrementValue();
+
+    void deleteStoryEntityByStoryId(BigInteger storyId);
 }

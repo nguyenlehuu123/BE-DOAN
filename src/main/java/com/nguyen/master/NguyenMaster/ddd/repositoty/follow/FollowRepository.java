@@ -34,4 +34,6 @@ public interface FollowRepository extends JpaRepository<FollowEntity, BigInteger
     Collection<StoryEntityDTO> findFollowEntitiesByUserId(@Param("useId") BigInteger userId);
 
     FollowEntity findFollowEntitiesByUserIdAndStoryId(BigInteger userId, BigInteger storyId);
+
+    void deleteFollowEntitiesByStoryId(BigInteger storyId);
 }

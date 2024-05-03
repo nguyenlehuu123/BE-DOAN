@@ -25,7 +25,7 @@ public interface HomeRepository extends JpaRepository<StoryEntity, BigInteger> {
             "(SELECT COUNT(c) as totalChapter FROM ChapterEntity c WHERE c.storyEntity.storyId = s.storyId )) " +
             "FROM StoryEntity as s " +
             "WHERE s.deleteFlg = 0 " +
-            "order by s.updateTimestamp desc, s.followNumber desc")
+            "order by s.followNumber desc, s.updateTimestamp desc")
     Collection<StoryEntityDTO> findAllStoryHot(@Param("limit") Integer limit);
 
     @Query(value = "select * from story as s " +

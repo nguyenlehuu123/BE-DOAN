@@ -73,4 +73,14 @@ public class UploadStoryController {
     public ResponseEntity<?> uploadChapter(List<MultipartFile> lstFile, String fileLocation, Integer autoCreateFilePathFlg, Integer overrideExistedFileFlg) {
         return ResponseEntity.status(HttpStatus.OK).body(fileUploadService.fileUpload(lstFile, fileLocation, autoCreateFilePathFlg, overrideExistedFileFlg));
     }
+
+    @GetMapping("/sequence-number-story")
+    public ResponseEntity<?> getSequenceNumberStory() {
+        return ResponseEntity.status(HttpStatus.OK).body(updateStoryService.getSequenceNumberStory());
+    }
+
+    @DeleteMapping("/delete-story/{storyId}")
+    public ResponseEntity<?> deleteStory(@PathVariable @Required BigInteger storyId) {
+        return ResponseEntity.status(HttpStatus.OK).body(updateStoryService.deleteStory(storyId));
+    }
 }

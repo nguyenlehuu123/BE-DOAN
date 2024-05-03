@@ -14,7 +14,11 @@ import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryGenreEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.ChapterEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.uploadStory.ChapterAddRequest;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.uploadStory.InsertStoryRequest;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.follow.FollowRepository;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.LikesRepository;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.RatingRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.StoryRepository;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.readHistory.ReadHistoryRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.uploadStory.AuthorRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.uploadStory.ChapterRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.uploadStory.StoryGenreRepository;
@@ -43,6 +47,18 @@ public class UpdateStoryService extends BaseService {
 
     @Autowired
     private StoryGenreRepository storyGenreRepository;
+
+    @Autowired
+    private LikesRepository likesRepository;
+
+    @Autowired
+    private RatingRepository ratingRepository;
+
+    @Autowired
+    private ReadHistoryRepository readHistoryRepository;
+
+    @Autowired
+    private FollowRepository followRepository;
 
     public NormalDefaultResponse updateStory(InsertStoryRequest request, BigInteger storyId) {
 
@@ -106,5 +122,28 @@ public class UpdateStoryService extends BaseService {
             chapterEntities.add(chapterEntity);
         }
         return chapterEntities;
+    }
+
+    public Integer getSequenceNumberStory() {
+        return storyRepository.getLastAutoIncrementValue() + 1;
+    }
+
+    public NormalDefaultResponse deleteStory(BigInteger storyId) {
+        StoryEntity storyEntity = storyRepository.findStoryEntitiesByStoryId(storyId);
+        if (storyEntity == null) {
+            List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.STORY_EMPTY_NOT_RECORD));
+            throw new Error400Exception(Constants.E404, errorMessages);
+        }
+        likesRepository.deleteLikesEntitiesByStoryId(storyId);
+        ratingRepository.deleteRatingEntitiesByIdStoryId(storyId);
+        readHistoryRepository.deleteReadHistoryEntitiesByIdStoryId(storyId);
+        followRepository.deleteFollowEntitiesByStoryId(storyId);
+        chapterRepository.deleteChapterEntitiesByStoryEntity(storyEntity);
+
+        storyRepository.deleteStoryEntityByStoryId(storyId);
+
+        NormalDefaultResponse normalDefaultResponse = new NormalDefaultResponse();
+        normalDefaultResponse.setMessage(SystemMessageCode.SUCCESS_PROCESS);
+        return normalDefaultResponse;
     }
 }

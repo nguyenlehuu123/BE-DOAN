@@ -29,4 +29,6 @@ public interface ReadHistoryRepository extends JpaRepository<ReadHistoryEntity, 
             "WHERE rh.id.userId = :userId " +
             "ORDER BY rh.readAt desc ")
     Page<ReadHistoryStoryDTO> findReadHistoryStoryDTOByUserId(@Param("userId") BigInteger userId, Pageable pageable);
+
+    void deleteReadHistoryEntitiesByIdStoryId(BigInteger storyId);
 }

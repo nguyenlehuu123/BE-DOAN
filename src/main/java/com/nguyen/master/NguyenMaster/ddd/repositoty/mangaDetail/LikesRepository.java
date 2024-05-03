@@ -9,4 +9,6 @@ import java.math.BigInteger;
 @Repository
 public interface LikesRepository extends JpaRepository<LikesEntity, BigInteger> {
     LikesEntity findLikesEntityByStoryIdAndUserId(BigInteger storyId, BigInteger userId);
+
+    void deleteLikesEntitiesByStoryId(BigInteger storyId);
 }
