@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -52,18 +53,20 @@ public class ReadHistoryService extends BaseService {
 
     public NormalDefaultResponse addReadHistory(BigInteger storyId) {
         AccountRedis accountRedis = auditingEntityAction.getUserInfo();
-        BigInteger userId = accountRedis.getUserId();
+        if (!ObjectUtils.isEmpty(accountRedis)) {
+            BigInteger userId = accountRedis.getUserId();
 
-        StoryEntity storyEntity = storyRepository.findById(storyId).orElse(null);
-        if (storyEntity == null) {
-            List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.STORY_EMPTY_NOT_RECORD));
-            throw new Error400Exception(Constants.E404, errorMessages);
+            StoryEntity storyEntity = storyRepository.findById(storyId).orElse(null);
+            if (storyEntity == null) {
+                List<ErrorMessage> errorMessages = List.of(buildErrorMessage(SystemMessageCode.STORY_EMPTY_NOT_RECORD));
+                throw new Error400Exception(Constants.E404, errorMessages);
+            }
+
+            ReadHistoryEntity readHistoryEntity = new ReadHistoryEntity();
+            readHistoryEntity.setId(ReadHistoryId.builder().userId(userId).storyId(storyId).build());
+            readHistoryEntity.setReadAt(new Timestamp(System.currentTimeMillis()));
+            readHistoryRepository.save(readHistoryEntity);
         }
-
-        ReadHistoryEntity readHistoryEntity = new ReadHistoryEntity();
-        readHistoryEntity.setId(ReadHistoryId.builder().userId(userId).storyId(storyId).build());
-        readHistoryEntity.setReadAt(new Timestamp(System.currentTimeMillis()));
-        readHistoryRepository.save(readHistoryEntity);
 
         NormalDefaultResponse normalDefaultResponse = new NormalDefaultResponse();
         normalDefaultResponse.setMessage(getMessage(SystemMessageCode.SUCCESS_PROCESS));
