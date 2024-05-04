@@ -66,4 +66,9 @@ public class MangaDetailController {
     public ResponseEntity<?> isRating(@PathVariable BigInteger storyId) {
         return ResponseEntity.status(HttpStatus.OK).body(ratingMangaService.isRating(storyId));
     }
+
+    @GetMapping("/story-genre-name/{storyId}")
+    public ResponseEntity<?> getStoryGenreName(@PathVariable BigInteger storyId) {
+        return ResponseEntity.status(HttpStatus.OK).body(getDetailStoryService.getStoryGenreName(storyId));
+    }
 }

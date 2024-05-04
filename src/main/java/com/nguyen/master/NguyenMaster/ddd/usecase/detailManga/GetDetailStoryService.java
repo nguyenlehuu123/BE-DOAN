@@ -8,6 +8,7 @@ import com.nguyen.master.NguyenMaster.core.exceptions.rest.Error400Exception;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.ChapterEntity;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.StoryRepository;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.uploadStory.StoryGenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -22,6 +23,9 @@ public class GetDetailStoryService extends BaseService {
     @Autowired
     private StoryRepository storyRepository;
 
+    @Autowired
+    private StoryGenreRepository storyGenreRepository;
+
     public StoryEntity getDetailStory(BigInteger storyId) {
 
         StoryEntity storyEntity = storyRepository.findStoryEntitiesByStoryId(storyId);
@@ -31,5 +35,14 @@ public class GetDetailStoryService extends BaseService {
             throw new Error400Exception(Constants.E404, errorMessages);
         }
         return storyEntity;
+    }
+
+    public String getStoryGenreName(BigInteger storyId) {
+        StoryEntity storyEntity = storyRepository.findStoryEntitiesByStoryId(storyId);
+        if (storyEntity == null) {
+            // Handle the case where the story does not exist
+            throw new Error400Exception(Constants.E404, List.of(buildErrorMessage(SystemMessageCode.STORY_EMPTY_NOT_RECORD)));
+        }
+        return storyEntity.getStoryGenreEntity().getStoryGenreName();
     }
 }
