@@ -25,4 +25,6 @@ public interface CommentRepository extends JpaRepository<CommentEntity, BigInteg
             "WHERE story_id = ?1\n" +
             "ORDER BY Level, comment_id;", nativeQuery = true)
     List<CommentEntity> findCommentEntitiesByStoryId(BigInteger storyId);
+
+    void deleteCommentEntitiesByUsers_UserId(BigInteger userId);
 }

@@ -11,4 +11,6 @@ public interface LikesRepository extends JpaRepository<LikesEntity, BigInteger> 
     LikesEntity findLikesEntityByStoryIdAndUserId(BigInteger storyId, BigInteger userId);
 
     void deleteLikesEntitiesByStoryId(BigInteger storyId);
+
+    void deleteLikesEntitiesByUserId(BigInteger userId);
 }

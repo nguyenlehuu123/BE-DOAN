@@ -49,6 +49,7 @@ public class SecurityConfiguration {
                         "api/v1/otp/**",
                         "/api/v1/upload-story/**",
                         "/api/v1/history/**",
+                        "/api/v1/user-management/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",
                         "/v2/api-docs",

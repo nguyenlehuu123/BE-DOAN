@@ -1,8 +1,10 @@
 package com.nguyen.master.NguyenMaster.ddd.repositoty.auth;
 
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.auth.Users;
+import com.nguyen.master.NguyenMaster.ddd.dto.userManagement.UserManagementDTO;
 import io.lettuce.core.dynamic.annotation.Param;
-import org.apache.catalina.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,15 @@ public interface UserRepository extends JpaRepository<Users, BigInteger> {
     String findEmailByUserId(@Param("userId") BigInteger userId);
 
     Users findUsersByUserId(BigInteger userId);
+
+    @Query("SELECT new com.nguyen.master.NguyenMaster.ddd.dto.userManagement.UserManagementDTO(" +
+            "u.userId, " +
+            "u.email, " +
+            "u.role) " +
+            "FROM Users as u ")
+    Page<UserManagementDTO> findUserManagementPaging(Pageable pageable);
+
+    void deleteUserByUserId(BigInteger userId);
+
+    Users findUserByUserId(BigInteger userId);
 }

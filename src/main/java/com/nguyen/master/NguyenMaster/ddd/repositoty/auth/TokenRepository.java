@@ -15,4 +15,6 @@ public interface TokenRepository extends JpaRepository<Tokens, BigInteger> {
             "inner join t.users as u on t.id = u.userId " +
             "where u.userId = :userId and t.revoked = false and t.expired = false")
     String findByUserIdEAndExpi(@Param("userId") BigInteger userId);
+
+    void deleteTokensByUsers_UserId(BigInteger userId);
 }

@@ -16,4 +16,6 @@ public interface RatingRepository extends JpaRepository<RatingEntity, RatingId> 
     Optional<RatingEntity> findById(RatingId id);
 
     void deleteRatingEntitiesByIdStoryId(BigInteger storyId);
+
+    void deleteRatingEntitiesByIdUserId(BigInteger userId);
 }

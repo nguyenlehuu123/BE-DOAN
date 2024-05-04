@@ -31,4 +31,6 @@ public interface ReadHistoryRepository extends JpaRepository<ReadHistoryEntity, 
     Page<ReadHistoryStoryDTO> findReadHistoryStoryDTOByUserId(@Param("userId") BigInteger userId, Pageable pageable);
 
     void deleteReadHistoryEntitiesByIdStoryId(BigInteger storyId);
+
+    void deleteReadHistoryEntitiesByIdUserId(BigInteger userId);
 }
