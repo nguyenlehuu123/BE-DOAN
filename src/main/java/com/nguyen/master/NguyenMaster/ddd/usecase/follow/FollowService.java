@@ -11,6 +11,7 @@ import com.nguyen.master.NguyenMaster.ddd.domain.entity.AccountRedis;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.auth.Users;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.follow.FollowEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryGenreEntity;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.auth.UserRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.follow.FollowRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.StoryRepository;
@@ -43,6 +44,9 @@ public class FollowService extends BaseService {
         checkStoryExitsInDb(storyId);
         checkUserIdExitsInDb(accountRedis.getUserId());
         checkUserFollowedStory(accountRedis.getUserId(), storyId);
+        StoryEntity storyEntity = storyRepository.findStoryEntitiesByStoryId(storyId);
+        storyEntity.setFollowNumber(storyEntity.getFollowNumber() + 1);
+        storyRepository.save(storyEntity);
         followRepository.insertFollowEntity(accountRedis.getUserId(), storyId);
 
         NormalDefaultResponse normalDefaultResponse = new NormalDefaultResponse();
