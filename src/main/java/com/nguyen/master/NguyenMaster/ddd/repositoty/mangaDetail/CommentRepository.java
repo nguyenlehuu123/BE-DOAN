@@ -1,5 +1,6 @@
 package com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail;
 
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.home.StoryEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.CommentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,6 @@ public interface CommentRepository extends JpaRepository<CommentEntity, BigInteg
     List<CommentEntity> findCommentEntitiesByStoryId(BigInteger storyId);
 
     void deleteCommentEntitiesByUsers_UserId(BigInteger userId);
+
+    void deleteCommentEntitiesByStoryEntity_StoryId(BigInteger storyId);
 }

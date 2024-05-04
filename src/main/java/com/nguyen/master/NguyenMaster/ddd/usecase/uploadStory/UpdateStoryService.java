@@ -15,6 +15,7 @@ import com.nguyen.master.NguyenMaster.ddd.domain.entity.mangaDetail.ChapterEntit
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.uploadStory.ChapterAddRequest;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.uploadStory.InsertStoryRequest;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.follow.FollowRepository;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.CommentRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.LikesRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.RatingRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.StoryRepository;
@@ -59,6 +60,9 @@ public class UpdateStoryService extends BaseService {
 
     @Autowired
     private FollowRepository followRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public NormalDefaultResponse updateStory(InsertStoryRequest request, BigInteger storyId) {
 
@@ -139,6 +143,7 @@ public class UpdateStoryService extends BaseService {
         readHistoryRepository.deleteReadHistoryEntitiesByIdStoryId(storyId);
         followRepository.deleteFollowEntitiesByStoryId(storyId);
         chapterRepository.deleteChapterEntitiesByStoryEntity(storyEntity);
+        commentRepository.deleteCommentEntitiesByStoryEntity_StoryId(storyId);
 
         storyRepository.deleteStoryEntityByStoryId(storyId);
 
