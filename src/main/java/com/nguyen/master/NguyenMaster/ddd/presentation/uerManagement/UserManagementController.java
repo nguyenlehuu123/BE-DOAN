@@ -27,8 +27,8 @@ public class UserManagementController {
         return ResponseEntity.status(HttpStatus.OK).body(getUserService.deleteUser(userId));
     }
 
-    @PutMapping("/update/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable BigInteger userId, @RequestBody UpdateRoleRequest updateRoleRequest) {
+    @PutMapping("/update-role/{userId}")
+    public ResponseEntity<?> updateRoleUser(@PathVariable BigInteger userId, @RequestBody UpdateRoleRequest updateRoleRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(getUserService.updateRoleUser(userId, updateRoleRequest));
     }
 }

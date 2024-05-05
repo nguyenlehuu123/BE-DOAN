@@ -80,7 +80,7 @@ public class GetStoryHotService extends BaseService {
             searchAllStory.setStoryId(storyEntity.getStoryId());
             searchAllStory.setStoryName(storyEntity.getStoryName());
             searchAllStory.setImageStory(storyEntity.getImage());
-            searchAllStory.setNameAuthor(storyEntity.getAuthorEntities().stream().map(AuthorEntity::getName).collect(Collectors.joining(", ")));
+            searchAllStory.setNameAuthor(storyEntity.getAuthorEntities().stream().map(AuthorEntity::getPseudonym).collect(Collectors.joining(", ")));
             searchAllStories.add(searchAllStory);
         }
         return searchAllStories;
