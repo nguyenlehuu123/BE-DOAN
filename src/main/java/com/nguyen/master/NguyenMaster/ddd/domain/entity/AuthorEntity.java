@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -25,14 +26,17 @@ public class AuthorEntity {
     @Column(name = "pseudonym")
     private String pseudonym;
 
-    @Column(name = "email")
-    private String email;
-
     @Column(name = "address")
     private String address;
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "author_story",
@@ -47,9 +51,10 @@ public class AuthorEntity {
                 "authorId=" + authorId +
                 ", name='" + name + '\'' +
                 ", pseudonym='" + pseudonym + '\'' +
-                ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
                 '}';
     }
 }

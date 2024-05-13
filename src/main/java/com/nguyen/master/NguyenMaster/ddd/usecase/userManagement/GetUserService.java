@@ -6,6 +6,7 @@ import com.nguyen.master.NguyenMaster.core.common.ErrorMessage;
 import com.nguyen.master.NguyenMaster.core.constant.Constants;
 import com.nguyen.master.NguyenMaster.core.constant.SystemMessageCode;
 import com.nguyen.master.NguyenMaster.core.exceptions.rest.Error400Exception;
+import com.nguyen.master.NguyenMaster.ddd.domain.entity.AuthorEntity;
 import com.nguyen.master.NguyenMaster.ddd.domain.entity.auth.Users;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.PagingRequest;
 import com.nguyen.master.NguyenMaster.ddd.domain.payload.request.userManagement.UpdateRoleRequest;
@@ -18,6 +19,7 @@ import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.CommentReposito
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.LikesRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.mangaDetail.RatingRepository;
 import com.nguyen.master.NguyenMaster.ddd.repositoty.readHistory.ReadHistoryRepository;
+import com.nguyen.master.NguyenMaster.ddd.repositoty.uploadStory.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,6 +51,9 @@ public class GetUserService extends BaseService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private AuthorRepository authorRepository;
+
     public UserManagementResponse getUser(PagingRequest pagingRequest) {
         PageRequest pageRequest = PageRequest.of(pagingRequest.getPageNum() - 1, pagingRequest.getPageSize());
         Page<UserManagementDTO> userManagementDTOS = userRepository.findUserManagementPaging(pageRequest);
@@ -66,6 +71,10 @@ public class GetUserService extends BaseService {
             throw new Error400Exception(Constants.E404, errorMessages);
         }
 
+        AuthorEntity authorEntity = authorRepository.findAuthorEntitiesByEmail(user.getEmail());
+        if (authorEntity != null) {
+            authorRepository.deleteAuthorEntitiesByEmail(user.getEmail());
+        }
         // Delete ratings associated with the user first
         ratingRepository.deleteRatingEntitiesByIdUserId(userId); // This is an example. Replace with your actual method to delete ratings.
 

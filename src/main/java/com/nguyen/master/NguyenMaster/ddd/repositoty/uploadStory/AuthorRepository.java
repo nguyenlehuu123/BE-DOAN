@@ -9,4 +9,7 @@ import java.math.BigInteger;
 @Repository
 public interface AuthorRepository extends JpaRepository<AuthorEntity, BigInteger> {
     AuthorEntity findAuthorEntityByAuthorId(BigInteger authorId);
+    AuthorEntity findAuthorEntitiesByEmail(String email);
+
+    void deleteAuthorEntitiesByEmail(String email);
 }
